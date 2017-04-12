@@ -3,17 +3,55 @@ echo <<< HTML
 <html lang="en">
 
 <head>
+    <title>Login</title>
     <meta name="author" content="Michael Gardner" />
     <meta name="owner" content="Timely" />
     <meta name="description" content="On-Demand Delivery from anywhere!">
     <meta name="keywords" content="Get what you need in 2 hours!">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/main.css">
+    
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <!-- Make sure the HTML file doesn't get stored -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 </head>
 <body>
-    <header>
-        <h1>Timely</h1>
-    </header>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Timely
+                <!-- <img src="assets/img/logoWhite.png" width="125" height="40" alt=""> -->
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">How it works</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="careers.html">Join Our Team</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="login.php"><span class="glyphicon glyphicon-logg-in"></span> Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
     <div id="login" name="login">
         <form>
             <table id="loginTable">
