@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="27287ae3-3f4b-4380-83f0-d6f6340d8a93" name="xammp" url="http://localhost/Timely">
+        <fileTransfer port="0" mountedRoot="C:\Users\mikey\Projects\Timely" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
