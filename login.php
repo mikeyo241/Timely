@@ -52,31 +52,35 @@ echo <<< HTML
     </div>
 </nav>
 
-    <div id="login" name="login">
-        <form>
-            <table id="loginTable">
-            <tbody>
-                <tr>
-                    <td><label for="email">Email</label></td>
-                    <td><input maxlength="40" type="email" name="logEmail" id="logEmail"></td>
-                </tr>
-                <tr>
-                    <td><label for="password">Password</label></td>
-                    <td><input maxlength="100" type="password" name="logPWord" id="logPWord"></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" name="loginSubmit" value="Login"></td>
-                </tr>
+<div class="col-sm-2"></div>
+<div class="col-sm-2">
+    <form>
+    <h2>Login</h2>
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="email" class="form-control" id="email">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" id="pwd">
+  </div>
+  <div class="checkbox">
+    <label><input type="checkbox"> Remember me</label>
+  </div>
+  <button type="submit" class="btn btn-default" name="loginSubmit">Login</button>
 </form>
-    </div>
-    <div id="create" name="create">
-        <table id="createTable">
-            <tr>
-                <td><input maxlength="40" type="text" name="fName" id="fName" placeholder="First Name"></td>
-                <td><input maxlength="40" type="text" name="lName" id="mName" placeholder="Middle Name"></td>
-                <td><input maxlength="40" type="text" name="lName" id="lName" placeholder="Last Name"></td>
-            </tr>
-            <tr>
+</div>
+   
+    <div class="col-sm-1"></div>
+    <div class="col-sm-4">
+        <form>
+            <h2>Create an Account</h2>
+            <div class="form-group">
+                <input maxlength="40" type="text" name="fName" id="fName" placeholder="First Name">
+                <input maxlength="40" type="text" name="lName" id="mName" placeholder="Middle Name">
+                <input maxlength="40" type="text" name="lName" id="lName" placeholder="Last Name">
+            </div>
+            <div class="form-group">
                 <td colspan="2"><label for="birthMonth">Birthday: </label>
                     <select name="birthMonth" id="birthMonth">
                         <option selected value=''>--Select Month--</option>
@@ -96,11 +100,11 @@ echo <<< HTML
                     <input maxlength="2" name="birthDay" id="birthDay" style="width: 20px; padding: 2px;">
                     <input maxlength="4" name="birthYear" id="birthYear" style="width: 60px;">
                 </td>
-            </tr>
-            <tr>
+            </div>
+            <div class="form-group">
                 <td colspan="2"><input maxlength="40" type="text" name="address" id="address" placeholder="Address" style="width: 100%"> </td>
-            </tr>
-            <tr>
+            </div>
+            <div class="form-group">
                 <td colspan="2">
                     <input maxlength="40" type="text" name="city" id="city" placeholder="City">
                     <select>
@@ -123,19 +127,18 @@ echo <<< HTML
                     </select>
                     <input maxlength="5" type="text" name="zip" id="zip" placeholder="Zip-Code" style="width: 60px">
                 </td>
-            </tr>
-            <tr>
+            </div>
+            <div class="form-group">
                     <td><input maxlength="40" type="email" name="createEmail" id="createEmail" placeholder="Email"></td>
                     <td><input maxlength="40" type="email" name="createEmail" id="cfEmail" placeholder="Confirm Email"></td>
-                </tr>
+            </div>
                 
-                <tr>
+               <div class="form-group">
                     <td><input maxlength="100" type="password" name="createPWord" id="createPWord" placeholder="Password"></td>
                     <td><input maxlength="100" type="password" name="createPWord" id="cfPWord" placeholder="Confirm Password"></td>
-                </tr>
-            
-</tr>
-</table>
+                </div>
+            <button type="submit" class="btn btn-default" name="loginSubmit">Create Account</button>
+</form>
     
     </div>
 </body>
