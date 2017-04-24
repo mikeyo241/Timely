@@ -11,17 +11,20 @@
  */
 
 
-
+session_start();
 
 $email = $_SESSION['email'];
 $pass = $_SESSION['pass'];
 $userNotify = "";
 
-
+echo $_SESSION['email'];
+echo $_SESSION['pass'];
 // ** Create Account System  **
 if(isset($_POST['createAccSubmit'])){
   if($_SESSION['pass'] == md5($_POST['cfPass'])){
-      createAccount()
+    if(checkEMail($email)) {
+      createAccount($email, $_POST['pass'], $_POST['fName'], $_POST['lName'], $_POST['address'], "trial");
+    }else $userNotify = "Email Alread in use";
     }else $userNotify = "The passwords must match!";
 
   reDir('createAccount.php');
@@ -53,19 +56,17 @@ echo <<< HTML
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Timely
+            <a class="navbar-brand" href="index.php">Timely
                 <!-- <img src="assets/img/logoWhite.png" width="125" height="40" alt=""> -->
             </a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="about.html">How it works</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="careers.html">Join Our Team</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li class="active"><a href="#">Create Account</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="login.php"><span class="glyphicon glyphicon-logg-in"></span> Login</a></li>
+                <li><a href="login.php"><span class="glyphicon glyphicon-logg-in"></span>Welcome! $email</a></li>
             </ul>
         </div>
     </div>
@@ -79,7 +80,7 @@ echo <<< HTML
                 <h2 class="text-center">Create Account</h2>
                 <div class="form-group">
                     <label for="email">Email Selected:</label>
-                    <h6 id="email">$email</h6>
+                    <h3 id="email">$email</h3>
                 </div>
                 <div class="form-group">                   
                     <label for="cfPass">Confirm Password</label>
@@ -94,13 +95,14 @@ echo <<< HTML
                     <input type="text" name="fName" class="form-control" id="fName">
                 </div>
                 <div class="form-group">
+                    <label for="pwd">Phone Number</label>
+                    <input type="tel" name="phone" class="form-control" id="phone">
+                </div>
+                <div class="form-group">
                     <label id="sLabel" for="search">Delivery Address</label>
                     <input type="text" class="form-control" id="search">
                 </div>
-                <div class="form-group">
-                    <label for="pwd">First Name</label>
-                    <input type="text" name="fName" class="form-control" id="fName">
-                </div>
+               
         
                 <button type="submit" name="createAccSubmit"    class="btn btn-default">Create Account</button>
             </form>

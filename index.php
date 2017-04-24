@@ -1,11 +1,11 @@
 
 <?php
-
+session_start();
 require ('lib/library.php');
 //  **  Login System  **
 if(isset($_POST['loginSubmit'])) {
   $_SESSION['email'] = $_POST['email'];
-  $_SESSION['email'] = md5($_POST['pass']);
+  $_SESSION['pass'] = md5($_POST['pass']);
 
 
 
@@ -14,9 +14,14 @@ if(isset($_POST['loginSubmit'])) {
 
 // ** Create Account System  **
 if(isset($_POST['createAccSubmit'])){
+ // if(checkEMail($_POST['email'])){
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['pass'] = md5($_POST['pass']);
-   reDir('createAccount.php');
+    reDir('createAccount.php');
+//  }else{
+ //   $userNotify = "E-Mail is already in use";
+//  }
+
 }
 
 
@@ -94,7 +99,7 @@ echo <<< HTML
 <div class="container">
     <div class="row">
         <div class="col-sm-3">
-            <form>
+            <form action="$PHP_SELF" method="post">
                 <h2 class="text-center">Sign In</h2>
                 <div class="form-group">
                     <label for="email">Email address:</label>

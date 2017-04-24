@@ -17,10 +17,6 @@ if(isset($_SESSION['strName'])) {
 }else reDir('order.php');
 
 
-$PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF']);
-
-
-
 if(isset($_POST['searchSubmit'])) {
   $qry = cleanIt($_POST['search']);
   $searchResult = searchItems($qry);

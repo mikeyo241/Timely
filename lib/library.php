@@ -1,5 +1,5 @@
 <?php
-
+$PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF']);
 function searchItems($qry)
 {
 # Set up a client to talk to the Semantics3 API using your Semantics3 API Credentials
@@ -43,9 +43,89 @@ function cleanIt($data) {
   $data = htmlspecialchars($data);		// This changes Special characters to non html special characters.  ex. http://php.net/manual/en/function.htmlspecialchars.php
   return $data;
 }
+/** Function:       fixSql
+ * Last Modified:   26 November 2016
+ * @param           $data -  The data tha needs to be filtered.
+ * @return          string - Characters encoded are NUL (ASCII 0), \n, \r, \, ', ", and Control-Z.
+ * Description:     Used to clean any form input that will go into the database.
+ */
+function fixSql($data) {
+  $data = cleanIt($data);
+  $link = dbConnect();
+  $data = mysqli_real_escape_string($link, $data);/*  Characters encoded are NUL (ASCII 0), \n, \r, \, ', ", and Control-Z.   */
+  $link->close();
+  return $data;
+}
 
+/** Function:       dbConnect
+ * Last Modified:   23 February 2017
+ * @param string    $hostname - host name of the server.
+ * @param string    $db_user - the database user name.
+ * @param string    $db_pword - the database password.
+ * @param string    $db_database - the database to use.
+ * @return          mysqli - is the mysqli link to the server make sure to close the connection when done!
+ * Description:     This is used to connect to the database unless spcified uses default values.
+ */
+function dbConnect($hostname = 'localhost',$db_user='timely',$db_pword='tyrjh%idl*kasdfasdfE',$db_database='timely')
+{
+  $link = mysqli_connect($hostname, $db_user, $db_pword, $db_database) or die ("failed to connect");
+  return $link;
+}
 
 
 function reDir($location) {
   header("Location: $location");
+}
+
+
+function createAccount($email, $pass, $fName, $lName, $phone, $Address, $accType, $driver){
+  fixSql($email); fixSql($pass); fixSql($fName); fixSql($lName); fixSql($Address); fixSql($accType);
+//      *** Establish a connection to the database  ***
+  $link = dbConnect();
+
+//      *** Query  ***
+  $qry = "INSERT INTO ACCOUNT(ACC_EMAIL, ACC_PASS, ACC_FNAME, ACC_LNAME, ACC_PHONE, ACC_ADDRESS, ACC_TYPE, ACC_DRIVER) 
+      VALUES (
+      '$email',
+      '$pass',
+      '$fName',
+      '$lName',
+      '$phone',
+      '$Address',
+      '$accType',
+      '$driver'
+      )";
+
+
+//      *** Implement Query   ***
+  if (mysqli_query($link,$qry)){return true;}else {
+    echo "Error: " . $qry . "<br>" . mysqli_error($link);
+    $link->close();
+    return false;
+  }
+}
+
+function checkEMail($eMail) {
+//      ** Check input for database exploits **
+  fixSql($eMail);
+
+//      *** Establish a connection to the database  ***
+  $link = dbConnect();
+
+//      *** Database Query's    ***
+  $qry = "SELECT * FROM ACCOUNT WHERE ACC_EMAIL = '$eMail'";
+
+  if($result = mysqli_query($link,$qry)) {                // Implement the query
+    if (mysqli_num_rows($result) == 1) {                // There can only be 1 entry for email no duplicates.
+      $link->close();
+      return false;
+    }else if (mysqli_num_rows($result) == 0) {
+      $link->close();
+      return true;}
+  }else {             // Query Failed - Error Messages Not shown !!!!
+    echo "Error: " . $qry . "<br>" . mysqli_error($link);
+    $link->close();
+    return false;
+  }
+  return false;
 }
