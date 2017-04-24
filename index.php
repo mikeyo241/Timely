@@ -1,3 +1,52 @@
+
+<?php
+
+require ('lib/library.php');
+//  **  Login System  **
+if(isset($_POST['loginSubmit'])) {
+  $_SESSION['email'] = $_POST['email'];
+  $_SESSION['email'] = md5($_POST['pass']);
+
+
+
+
+}
+
+// ** Create Account System  **
+if(isset($_POST['createAccSubmit'])){
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['pass'] = md5($_POST['pass']);
+   reDir('createAccount.php');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+echo <<< HTML
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,11 +98,11 @@
                 <h2 class="text-center">Sign In</h2>
                 <div class="form-group">
                     <label for="email">Email address:</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" name="email" class="form-control" id="email">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input type="password" class="form-control" id="pwd">
+                    <input type="password" name="pass" class="form-control" id="pwd">
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox"> Remember me</label>
@@ -113,5 +162,10 @@
     <p>Footer Text</p>
 </footer>
 
+
 </body>
 </html>
+
+
+
+HTML;
