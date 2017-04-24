@@ -179,7 +179,7 @@ echo <<< HTML
   <!-- The Users Shopping Cart -->
   <div class="col-sm-3">
     <div class="well well-white">
-      <h5 id="Store" class=""text-centerw">Delivering from: <b>$strName</b><br> $strAddr </h5>
+      <h5 id="Store" class="text-centered">Delivering from: <b>$strName</b><br> $strAddr </h5>
               <form id="signOutForm" action="$PHP_SELF" method="post">
             <input type="submit" value="Cancel Order" id="logOutSubmit" name="logOutSubmit">
         </form>
