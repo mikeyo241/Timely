@@ -31,11 +31,6 @@ echo <<< HTML
     <meta http-equiv="Expires" content="0" />
 </head>
 <body>
-
-
-
-
-
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -62,17 +57,25 @@ echo <<< HTML
 </nav>
 
 <div class="row">
-  <div class="col-sm-8">
+<div class="col-sm-2"></div>
+  <div class="col-sm-8 centered">
     <div class="well well-white">
-      <h2 class="text-center">Order</h2>
-      <form>
-        <div class="form-group">
-          <label id="sLabel" for="search">Select A Store:</label>
+    
+      <h2 class="text-center" id="heading">Select a store</h2>
+      <h3 class="text-center" id="store"></h3>
+      <h6 class="text-center" id="strAddr"></h6>
+      
+      <form method="post" action="setStore.php">
+        <div class="form-group" >
+          <label id="sLabel" for="search"></label>
           <input type="text" class="form-control" id="search">
-          <input type="hidden" name="store" id="store" />
-          <input type="submit" name="storeSubmit" class="btn btn-default" value="Continue">
+          <input type="hidden" name="storeName" id="storeName" />
+          <input type="hidden" name="storeAddr" id="storeAddr" />
+          <input type="hidden" name="storeDistance" id="storeDistance" />
+          <input type="hidden" name="storeTime" id="storeTime" />
+        
         </div>
-          
+          <input type="submit" name="storeSubmit" class="btn btn-default" value="Continue">
     
       </form>
     
@@ -82,11 +85,7 @@ echo <<< HTML
  
   </div>
 </div>
-  <div class="col-sm-4">
-    <div class="well well-white">
-        <h2 class="text-center" >Shopping Cart</h2>
-        <h3 class="text-center" id="Store"></h3>
-        <h6 class="text-center" id="strAddr"></h6>
+
         
         
         
@@ -111,9 +110,14 @@ echo <<< HTML
           console.log('Name: ' + place.name);
           console.log('Address: ' + place.formatted_address);
           var address = "" + place.formatted_address;
-          document.getElementById('sLabel').innerHTML = "Change Store:";
-          document.getElementById('Store').innerHTML = place.name;
+          document.getElementById('sLabel').innerHTML = "To Change your store just type in a new one!";
+          document.getElementById('store').innerHTML = place.name;
           document.getElementById('strAddr').innerHTML = place.formatted_address;
+          document.getElementById('storeName').value = place.name;
+          document.getElementById('storeAddr').value = place.formatted_address;
+          document.getElementById('heading').style.display = "none";
+          document.getElementById('search').value = "";
+          
               
        
 
@@ -147,17 +151,14 @@ echo <<< HTML
         console.log('Duration: ' + duration);
         console.log('From: ' + from);
         console.log('To: ' + to);
+        document.getElementById('storeDistance').value = distance;
+        document.getElementById('storeTime').value = duration;
       }
     }
   }
       }}
       
-      document.getElementById('findProduct').onkeyup = itemSearch();
-      function itemSearch(){
-        var xhr = createCORSRequest('GET', 'https://api.indix.com/v2/summary/products?countryCode=US&q=water&app_key=TAXm7npAiNaYF5PwOfI1FpB88Lm2di5Y')
-         xhr.send();
-    }
-       
+ 
       
 </script>
 </body>
