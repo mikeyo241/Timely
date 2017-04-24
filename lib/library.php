@@ -14,6 +14,21 @@ function searchItems($qry)
   return $results;
 }
 
+/*   Author :           Nathaniel Merck
+ *   Function:          connectDB
+ *   Last modified:     4-24-17
+ *   Description:       connects to database
+ */
+
+function connectDB(){
+    $con = mysqli_connect("localhost", "CIT", "CPT283", "Michael");
+
+    if (!$con){
+        die("failed to connect to database  D;  <br>" . mysqli_connect_error() );
+    }
+    return $con;
+}
+
 
 
 /**  Function:      cleanIT
