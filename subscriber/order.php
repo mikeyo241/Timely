@@ -39,7 +39,7 @@ echo <<< HTML
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Timely
+            <a class="navbar-brand" href="index.php">Timely
                 <!-- <img src="assets/img/logoWhite.png" width="125" height="40" alt=""> -->
             </a>
         </div>

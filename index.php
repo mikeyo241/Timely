@@ -58,11 +58,10 @@
                 <div class="checkbox">
                     <label><input type="checkbox"> Remember me</label>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-                <button type="submit" class="btn btn-default">Create Account</button>
+                <button type="submit" name="loginSubmit"        class="btn btn-default">Login</button>
+                <button type="submit" name="createAccSubmit"    class="btn btn-default">Create Account</button>
             </form>
 
-                <button type="submit" class="btn btn-default">Create Account</button>
 
             <br>
         </div>
