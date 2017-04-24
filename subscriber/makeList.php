@@ -38,14 +38,23 @@ echo $results["results"][0]["name"];
 }
 
 
+if(isset($_POST['createItem'])) {
+  $itemName = $_POST['itemName'];
+  $brand = $_POST['brand'];
+  $itemDesc = $_POST['itemDesc'];
+  $itemCost = $_POST['itemCost'];
+  $item = "<tr> <td> " . $itemName . " </td><td> " . $itemCost . "</td></tr>";
+  $_SESSION['cart'][] = $item;
+
+}
 
 
 
 
-
-
-
-
+if (isset($_POST['logOutSubmit'])) {
+  session_destroy();
+  reDir('order.php');
+}
 
 
 
@@ -113,25 +122,39 @@ echo <<< HTML
     <div class="well well-white">
       <h2 class="text-center">Order</h2>
       
+            <!-- Create a Custom Item Form -->
+        <form method="post" action="$PHP_SELF">
+        <div class="form-group">
+          <label id="sLabel" for="search">Create A Custom Item:</label>
+          <input type="text"    class="form-control" id="itemName"  name="itemName"  placeholder="Item Name"  required>
+          <input type="text"    class="form-control" id="brand"     name="brand"     placeholder="Brand"      required>
+          <textarea rows="2"    class="form-control" id="itemDesc"  name="itemDesc"  placeholder="Item Description"></textarea>
+          <input type="number"  class="form-control" id="itemCost"  name="itemCost"  placeholder="Estimated Cost" required> 
+          <input type="submit" name="createItem" class="btn btn-default" value="Add Custom Item">
+        </div>             
+      </form>
+      
+      
       <!-- Search for an Item form -->
       <form method="post" action="$PHP_SELF">
         <div class="form-group">
-          <label id="sLabel" for="search">Search for an Item to add to your cart:</label>
+          <label id="sLabel" for="search">Beta Search for an item to add to your cart!</label>
           <input type="text"    name="search"       class="form-control" id="search">
           <input type="submit"  name="searchSubmit"  class="btn btn-default" value="Search">
         </div>             
 HTML;
+if (isset($_POST['searchSubmit'])) {
   $resultNumber = 0;
 //  for($row = 0; $row <= 4; $row++){
 //    echo '<div class="row">';
-    for($column = 0; $column <= 9; $column++){
-      $img = $results["results"][$resultNumber]["images"][0];
-      $itemName = $results["results"][$resultNumber]["name"];
-      $itemBrand = $results["results"][$resultNumber]["brand"];
-      $itemPrice = $results["results"][$resultNumber]["price"];
-      echo <<< HTML
+  for ($column = 0; $column <= 9; $column++) {
+    $img = $results["results"][$resultNumber]["images"][0];
+    $itemName = $results["results"][$resultNumber]["name"];
+    $itemBrand = $results["results"][$resultNumber]["brand"];
+    $itemPrice = $results["results"][$resultNumber]["price"];
+    echo <<< HTML
         <div class="col-sm-3">
-          <div class="well well-white">
+          <div class="well well-red">
             <img src="$img" class="img-thumbnail" width="100" height="100">
             <h4 class="text-centered">$itemName</h4>
             <h4 class="text-centered">$itemBrand</h4>
@@ -142,21 +165,11 @@ HTML;
     $resultNumber++;
     //}
   }
-
+}
 
 echo <<< HTML
        
-      <!-- Create a Custom Item Form -->
-        <form method="post" action="$PHP_SELF">
-        <div class="form-group">
-          <label id="sLabel" for="search">Create A Custom Item:</label>
-          <input type="text"    class="form-control" id="itemName"  name="itemName"  placeholder="Item Name">
-          <input type="text"    class="form-control" id="brand"     name="brand"     placeholder="Brand">
-          <textarea rows="2"    class="form-control" id="itemDesc"  name="itemDesc"  placeholder="Item Description"></textarea>
-          <input type="number"  class="form-control" id="itemCost"  name="itemCost"  placeholder="Estimated Cost"> 
-          <input type="submit" name="createItem" class="btn btn-default" value="Add Custom Item">
-        </div>             
-      </form>
+
 
       
      
@@ -164,10 +177,31 @@ echo <<< HTML
   </div>
   
   <!-- The Users Shopping Cart -->
-  <div class="col-sm-4">
+  <div class="col-sm-3">
     <div class="well well-white">
-      <h5 id="Store">Delivering from: <b>$strName</b> $strAddr </h5>
+      <h5 id="Store" class=""text-centerw">Delivering from: <b>$strName</b><br> $strAddr </h5>
+              <form id="signOutForm" action="$PHP_SELF" method="post">
+            <input type="submit" value="Cancel Order" id="logOutSubmit" name="logOutSubmit">
+        </form>
       <h2 class="text-center" >Shopping Cart</h2>
+     
+      <table class="table">
+        <thead>
+          <tr><th>Item</th> <th>Cost</th></tr>
+</thead>
+
+HTML;
+if(isset($_SESSION['cart'])) {
+  foreach($_SESSION['cart'] as $key=>$value)
+  {
+    // and print out the values
+    echo $value;
+  }
+
+}
+echo <<< HTML
+    </tabel>
+
     </div>
   </div>
 </div>
@@ -175,4 +209,4 @@ echo <<< HTML
 
 HTML;
 
-var_dump(json_decode($searchResult, true));
+//var_dump(json_decode($searchResult, true));
