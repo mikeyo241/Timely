@@ -131,3 +131,48 @@ function checkEMail($eMail) {
   }
   return false;
 }
+
+/** Function:       checkLogin
+ * Last Modified:   2 November 2016
+ * @param           $email - Email address  (40 characters MAX)
+ * @param           $pw -    Password    md5 Encrypted password      Always 32 characters long
+ * @return          bool - Will return true if the user exists and the password is correct.
+ * Description:     This function is used to determine if the Email and password entered on the
+ *                  login page match the username and password in the database.
+ */
+function checkLogin($id , $pass){
+//  deleteExpiredTempPassword();
+//      ** Check input for database exploits **
+  $id = fixSql($id);
+  $pass = md5(fixSql($pass));
+//      *** Establish a connection to the database  ***
+  $link = dbConnect();
+
+//      *** Database Query's    ***
+  $qry = "SELECT * FROM ACCOUNT WHERE ACC_EMAIL = '$id'";
+
+
+  if($result = mysqli_query($link,$qry)) {                // Implement the query
+    if (mysqli_num_rows($result) == 1) {                // There can only be 1 entry for email no duplicates.
+      $res = mysqli_fetch_assoc($result);             // Put the result into an array
+      if($pass == $res['ACC_PASS'] && $id == $res['ACC_EMAIL']){
+        $_SESSION['email']      =  $res['ACC_EMAIL'];
+        $_SESSION['fName']      =  $res['ACC_FNAME'];
+        $_SESSION['lName']      =  $res['ACC_LNAME'];
+        $_SESSION['phone']      =  $res['ACC_PHONE'];
+        $_SESSION['addr']       =  $res['ACC_ADDRESS'];
+        $_SESSION['accType']    =  $res['ACC_TYPE'];
+        $_SESSION['accDriver']  =  $res['ACC_DRIVER'];
+
+        return 'normalLogin';
+
+      } else if ($pass ==$res['ACC_TEMP_PASS'] && $id == $res['ACC_EMAIL'] && $res['ACC_TEMP_PASS_EXPIRES'] != NULL) return "tempPassUsed";
+      else return "Wrong Email or Password";
+    }
+  }else {             // Query Failed - Error Messages Not shown !!!!
+    echo "Error: " . $qry . "<br>" . mysqli_error($link);
+    $link->close();
+    return false;
+  }
+  return false;
+}
