@@ -24,7 +24,7 @@ if(isset($_POST['createAccSubmit'])){
   if($_SESSION['pass'] == md5($_POST['cfPass'])){
     if(checkEMail($email)) {
       createAccount($email, $_POST['pass'], $_POST['fName'], $_POST['lName'], $_POST['address'], "trial");
-    }else $userNotify = "Email Alread in use";
+    }else $userNotify = "Email Already in use";
     }else $userNotify = "The passwords must match!";
 
   reDir('createAccount.php');
@@ -75,6 +75,7 @@ echo <<< HTML
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
+        <h2>$userNotify</h2>
             <form>
                 
                 <h2 class="text-center">Create Account</h2>
