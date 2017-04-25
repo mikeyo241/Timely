@@ -13,6 +13,9 @@
 
 session_start();
 
+include("lib/library.php");
+
+
 $email = $_SESSION['email'];
 $pass = $_SESSION['pass'];
 $userNotify = "";
