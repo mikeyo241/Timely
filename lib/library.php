@@ -98,7 +98,9 @@ function createAccount($email, $pass, $fName, $lName, $phone, $Address, $accType
 
 
 //      *** Implement Query   ***
-  if (mysqli_query($link,$qry)){return true;}else {
+  if (mysqli_query($link,$qry)){
+    return true;
+  }else {
     echo "Error: " . $qry . "<br>" . mysqli_error($link);
     $link->close();
     return false;

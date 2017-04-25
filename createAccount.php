@@ -1,4 +1,13 @@
 <?php
+include("lib/library.php");
+session_start();
+
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 /**
  * Created by PhpStorm.
  * User: mikey
@@ -10,28 +19,31 @@
  *	Document: 			
  */
 
-
-session_start();
-
-include("lib/library.php");
-
-
+//  **  Variables   **
 $email = $_SESSION['email'];
 $pass = $_SESSION['pass'];
-$userNotify = "";
+
+
+
+
 
 echo $_SESSION['email'];
 echo $_SESSION['pass'];
 // ** Create Account System  **
-if(isset($_POST['createAccSubmit'])){
-  if($_SESSION['pass'] == md5($_POST['cfPass'])){
-    if(checkEMail($email)) {
-      createAccount($email, $_POST['pass'], $_POST['fName'], $_POST['lName'], $_POST['address'], "trial");
-    }else $userNotify = "Email Already in use";
-    }else $userNotify = "The passwords must match!";
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if ($_SESSION['pass'] == md5($_POST['cfPass'])) {
+    if (checkEMail($email)) {
+      $userNotify = "Account Created";
+      createAccount($email, md5($_POST['cfPass']), $_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['address'], "trial", "no");
+    } else $userNotify = "Email Already in use";
+  } else $userNotify = "The passwords must match!";
+} else $userNotify = "createSubmit Not Set!!!";
 
-  reDir('createAccount.php');
-}
+
+
+
+
+
 echo <<< HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -79,7 +91,7 @@ echo <<< HTML
     <div class="row">
         <div class="col-sm-6">
         <h2>$userNotify</h2>
-            <form>
+            <form method="post" action="$PHP_SELF">
                 
                 <h2 class="text-center">Create Account</h2>
                 <div class="form-group">
@@ -96,7 +108,7 @@ echo <<< HTML
                 </div>
                 <div class="form-group">
                     <label for="pwd">Last Name</label>
-                    <input type="text" name="fName" class="form-control" id="fName">
+                    <input type="text" name="lName" class="form-control" id="lName">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Phone Number</label>
@@ -104,11 +116,10 @@ echo <<< HTML
                 </div>
                 <div class="form-group">
                     <label id="sLabel" for="search">Delivery Address</label>
-                    <input type="text" class="form-control" id="search">
+                    <input type="text" name="address" class="form-control" id="search">
                 </div>
-               
-        
-                <button type="submit" name="createAccSubmit"    class="btn btn-default">Create Account</button>
+
+                <button type="submit" name="createSubmit" class="btn btn-default">Create Account</button>
             </form>
 </div>
 </div>
