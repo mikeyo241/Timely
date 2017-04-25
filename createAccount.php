@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['fName'] = $_POST['fName'];
         $_SESSION['lName'] = $_POST['lName'];
         $_SESSION['phone'] = $_POST['phone'];
-        $_SESSION['address'] = $_POST['address'];
+        $_SESSION['addr'] = $_POST['address'];
         $_SESSION['isLogged'] = true;
         reDir("subscriber/profile.php");
       }else $userNotify= "Account Creation Failed";
