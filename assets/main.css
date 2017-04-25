@@ -21,3 +21,15 @@ footer {
     font-family: 'Satisfy', cursive;
     font-size: 40px;
 }
+
+#contactUs {
+    text-align: center;
+    border-bottom: 1px solid rgb(34, 34, 34);
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+}
+
+#mailIMG {
+    width: 25px;
+}
