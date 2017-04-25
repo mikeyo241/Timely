@@ -5,8 +5,10 @@ require ('lib/library.php');
 //  **  Login System  **
 if(isset($_POST['loginSubmit'])) {
   $_SESSION['email'] = $_POST['email'];
-  $_SESSION['pass'] = md5($_POST['pass']);
-
+  $userNotify = checkLogin($_POST['email'],$_POST['pass']);
+  if($userNotify == 'normalLogin'){
+    reDir('subscriber/profile.php');
+  }//$userNotify = "Login Fail";
 
 
 
@@ -97,6 +99,7 @@ echo <<< HTML
 </nav>
 
 <div class="container">
+<h1>$userNotify</h1>
     <div class="row">
         <div class="col-sm-3">
             <form action="$PHP_SELF" method="post">

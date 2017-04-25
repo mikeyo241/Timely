@@ -1,8 +1,20 @@
 <?php
+session_start();
+require ('../lib/library.php');
 
 
+//  ** Check if the user is logged In!  **
+if(! isset($_SESSION['isLogged'])){
+  session_destroy();
+  reDir('../index.php');
+}
 
-
+//  ** Pull Session Variables  **
+$fName = $_SESSION['fName'];
+$lName = $_SESSION['lName'];
+$email = $_SESSION['email'];
+$addr = $_SESSION['address'];
+$phone = $_SESSION['phone'];
 
 
 
@@ -16,7 +28,7 @@ echo <<< HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>On-Demand Delivery</title>
+    <title>Profile</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
@@ -39,14 +51,15 @@ echo <<< HTML
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">Timely
+            <a class="navbar-brand" href="profile.php">Timely
                 <!-- <img src="assets/img/logoWhite.png" width="125" height="40" alt=""> -->
             </a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="index.php">Home</a></li>
-                <li class="active"><a href="#">Create Account</a></li>
+                <li class="active"><a href="profile.php">Profile</a></li>
+                <li><a href="order.php">Start an order</a></li>
+                <li><a href="accountSettings.php">Change Account Information</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="login.php"><span class="glyphicon glyphicon-logg-in"></span>Welcome! $email</a></li>
@@ -54,3 +67,10 @@ echo <<< HTML
         </div>
     </div>
 </nav>
+
+
+
+
+HTML;
+
+

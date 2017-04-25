@@ -1,5 +1,24 @@
 <?php
 
+session_start();
+require ('../lib/library.php');
+
+
+//  ** Check if the user is logged In!  **
+//if(! isset($_SESSION['isLogged'])){
+//  session_destroy();
+//  reDir('../index.php');
+//}
+
+//  ** Pull Session Variables  **
+$fName = $_SESSION['fName'];
+$lName = $_SESSION['lName'];
+$email = $_SESSION['email'];
+$addr = $_SESSION['address'];
+$phone = $_SESSION['phone'];
+
+
+
 
 
 
@@ -8,7 +27,7 @@ echo <<< HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>On-Demand Delivery</title>
+    <title>Create An Order!</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
@@ -39,7 +58,7 @@ echo <<< HTML
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">Timely
+            <a class="navbar-brand" href="profile.php">Timely
                 <!-- <img src="assets/img/logoWhite.png" width="125" height="40" alt=""> -->
             </a>
         </div>
@@ -71,16 +90,20 @@ echo <<< HTML
           <input type="text" class="form-control" id="search">
           <input type="hidden" name="storeName" id="storeName" />
           <input type="hidden" name="storeAddr" id="storeAddr" />
+          <input type="hidden" name="deliveryAddr" id="deliveryAddr"
           <input type="hidden" name="storeDistance" id="storeDistance" />
           <input type="hidden" name="storeTime" id="storeTime" />
         
         </div>
           <input type="submit" name="storeSubmit" class="btn btn-default" value="Continue">
     
+    
+          <h2 class="text-center" id="heading">Delivery Address</h2>
+          <label id="sLabel2" for="search2">Address that the will receive the Order</label>
+          <input type="text" class="form-control" id="search2" value="$addr">
       </form>
     
-        
-        
+
   <!-- Google MAPS API: AIzaSyCWwnLz96h6TEZhgodUmPdyUNfAk1EkUA0  -->
  
   </div>
@@ -123,9 +146,15 @@ echo <<< HTML
 
           drivingDistance(address);
       });
+      var ac2 = new google.maps.places.Autocomplete(document.getElementById('search2'));
+      
+      google.maps.event.addListener(ac2, 'place_changed', function() {
+          var place = ac2.getPlace();
+      });
+      
       
       function drivingDistance(destination) {
-          var origin = "1009 North Fishtrap Road, Easley, SC 29640";
+          var origin = document.getElementById('search2').value;
           var distance = new google.maps.DistanceMatrixService();
           distance.getDistanceMatrix(
               {
@@ -153,6 +182,7 @@ echo <<< HTML
         console.log('To: ' + to);
         document.getElementById('storeDistance').value = distance;
         document.getElementById('storeTime').value = duration;
+        document.getElementById('deliveryAddr').value = from;
       }
     }
   }

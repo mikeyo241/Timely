@@ -3,6 +3,22 @@ include("lib/library.php");
 session_start();
 
 
+//  ** Check if the user is logged In!  **
+if(! isset($_SESSION['isLogged'])){
+  session_destroy();
+  reDir('../index.php');
+}
+
+//  ** Pull Session Variables  **
+$fName = $_SESSION['fName'];
+$lName = $_SESSION['lName'];
+$email = $_SESSION['email'];
+$addr = $_SESSION['address'];
+$phone = $_SESSION['phone'];
+
+
+
+
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -34,7 +50,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($_SESSION['pass'] == md5($_POST['cfPass'])) {
     if (checkEMail($email)) {
       $userNotify = "Account Created";
-      createAccount($email, md5($_POST['cfPass']), $_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['address'], "trial", "no");
+      if(createAccount($email, md5($_POST['cfPass']), $_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['address'], "trial", "no")){
+        $_SESSION['email'] = $email;
+        $_SESSION['fName'] = $_POST['fName'];
+        $_SESSION['lName'] = $_POST['lName'];
+        $_SESSION['phone'] = $_POST['phone'];
+        $_SESSION['address'] = $_POST['address'];
+        $_SESSION['isLogged'] = true;
+        reDir("subscriber/profile.php");
+      }else $userNotify= "Account Creation Failed";
     } else $userNotify = "Email Already in use";
   } else $userNotify = "The passwords must match!";
 } else $userNotify = "createSubmit Not Set!!!";
