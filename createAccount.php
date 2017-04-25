@@ -3,23 +3,6 @@ include("lib/library.php");
 session_start();
 
 
-//  ** Check if the user is logged In!  **
-if(! isset($_SESSION['isLogged'])){
-  session_destroy();
-  reDir('../index.php');
-}
-
-//  ** Pull Session Variables  **
-$fName = $_SESSION['fName'];
-$lName = $_SESSION['lName'];
-$email = $_SESSION['email'];
-$addr = $_SESSION['address'];
-$phone = $_SESSION['phone'];
-
-
-
-
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -41,10 +24,6 @@ $pass = $_SESSION['pass'];
 
 
 
-
-
-echo $_SESSION['email'];
-echo $_SESSION['pass'];
 // ** Create Account System  **
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($_SESSION['pass'] == md5($_POST['cfPass'])) {

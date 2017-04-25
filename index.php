@@ -9,13 +9,10 @@ if(isset($_POST['loginSubmit'])) {
   if($userNotify == 'normalLogin'){
     reDir('subscriber/profile.php');
   }//$userNotify = "Login Fail";
+} else $userNotify = "";
 
 
-
-}
-
-// ** Create Account System  **
-if(isset($_POST['createAccSubmit'])){
+  if(isset($_POST['createAccSubmit'])){
  // if(checkEMail($_POST['email'])){
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['pass'] = md5($_POST['pass']);
@@ -24,7 +21,7 @@ if(isset($_POST['createAccSubmit'])){
  //   $userNotify = "E-Mail is already in use";
 //  }
 
-}
+} else $userNotify = "";
 
 
 
@@ -115,8 +112,8 @@ echo <<< HTML
                 <div class="checkbox">
                     <label><input type="checkbox"> Remember me</label>
                 </div>
-                <button type="submit" name="loginSubmit"        class="btn btn-default">Login</button>
-                <button type="submit" name="createAccSubmit"    class="btn btn-default">Create Account</button>
+                <input type="submit" name="loginSubmit"     value="login"   class="btn btn-default">
+                <input type="submit" name="createAccSubmit" value="Create Account"   class="btn btn-default">
             </form>
 
 

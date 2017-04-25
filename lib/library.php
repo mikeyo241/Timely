@@ -163,6 +163,7 @@ function checkLogin($id , $pass){
         $_SESSION['addr']       =  $res['ACC_ADDRESS'];
         $_SESSION['accType']    =  $res['ACC_TYPE'];
         $_SESSION['accDriver']  =  $res['ACC_DRIVER'];
+        $_SESSION['isLogged']   =   true;
 
         return 'normalLogin';
 
