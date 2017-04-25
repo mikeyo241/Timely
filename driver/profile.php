@@ -4,7 +4,7 @@ require ('../lib/library.php');
 
 
 //  ** Check if the user is logged In!  **
-if(! isset($_SESSION['isLogged'])){
+if(! $_SESSION['isLogged'] && ! $_SESSION['isDriver']){
   session_destroy();
   reDir('../index.php');
 }
@@ -22,10 +22,14 @@ if (!empty($_POST['logOutSubmit'])) {
   reDir('../index.php');
 }
 
-
-
-
-
+$order = getOrders($_SESSION['email']);
+$items = getItems($order['ORD_NUM']);
+$strAddr = $order['ORD_STORE_ADDR'];
+$deliveryAddr = $order['ORD_DEL_ADDR'];
+$itemName = $items['ITEM_NAME'];
+$itemBrand = $items['ITEM_BRAND'];
+$itemDesc = $items['ITEM_DESC'];
+$itemPrice = $items['ITEM_PRICE'];
 
 echo <<< HTML
 <!DOCTYPE html>
@@ -61,8 +65,7 @@ echo <<< HTML
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="profile.php">Profile</a></li>
-                <li><a href="order.php">Start an order</a></li>
-                <li><a href="accountSettings.php">Change Account Information</a></li>
+                
             </ul>
             <ul class="nav navbar-nav navbar-right">
                <li class="dropdown">
@@ -85,9 +88,23 @@ echo <<< HTML
     </div>
 </nav>
 
+<div class="container">
+  <h1>Order</h1>
+  <h3>From: $strAddr;</h3>
+  <h3>To: $deliveryAddr</h3>
+  
+  <h1>Items to buy</h1>
+  <h3>Name: $itemName</h3>
+  <h4>Brand: $itemBrand</h4>
+  <h6>Description: $itemDesc</h6>
 
-
+</div>
 
 HTML;
-
+$strAddr = $order['ORD_STORE_ADDR'];
+$deliveryAddr = $order['ORD_DEL_ADDR'];
+$itemName = $items['ITEM_NAME'];
+$itemBrand = $items['ITEM_BRAND'];
+$itemDesc = $items['ITEM_DESC'];
+$itemPrice = $items['ITEM_PRICE'];
 

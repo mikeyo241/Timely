@@ -14,11 +14,14 @@ require ('../lib/library.php');
 $fName = $_SESSION['fName'];
 $lName = $_SESSION['lName'];
 $email = $_SESSION['email'];
-$addr = $_SESSION['address'];
+$addr = $_SESSION['addr'];
 $phone = $_SESSION['phone'];
 
 
-
+if (isset($_POST['logOutSubmit'])) {
+  session_destroy();
+  reDir('../index.php');
+}
 
 
 
@@ -42,7 +45,7 @@ echo <<< HTML
       }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
     
     <!-- Make sure the HTML file doesn't get stored -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -68,9 +71,19 @@ echo <<< HTML
                 <li class="active"><a href="order.php">Create an Order</a></li>
                 <li><a href="account.php">Account Settings</a></li>               
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="login.php"><span class="glyphicon glyphicon-logg-in"></span> Login</a></li>
-            </ul>
+             <ul class="nav navbar-nav navbar-right">
+               <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="profile.php"><span class="glyphicon glyphicon-user"></span> $fName $lName
+              </a>
+              <ul class="dropdown-menu text-center">
+                
+                <li class="text-center">
+            <form id="signOutForm" action="$PHP_SELF" method="post">
+                <button type="submit" value="Log Out" id="logOutSubmit" name="logOutSubmit" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-log-out"></span> Log out
+                </button>
+            </form>
+          </li></ul></li></ul>
         </div>
     </div>
 </nav>
@@ -79,18 +92,27 @@ echo <<< HTML
 <div class="col-sm-2"></div>
   <div class="col-sm-8 centered">
     <div class="well well-white">
+          <form method="post" action="setStore.php">
     
+          <h2 class="text-center" id="timeHeading">Pick a time for Delivery</h2>
+          <input type="datetime-local" class="form-control" name="deliveryTime" required>
+          
+          <h2 class="text-center" id="heading">Delivery Address</h2>
+          <label id="sLabel2" for="search2">Address that the will receive the Order</label>
+          <input type="text" class="form-control" id="search2" value="$addr" required>
+          
       <h2 class="text-center" id="heading">Select a store</h2>
       <h3 class="text-center" id="store"></h3>
       <h6 class="text-center" id="strAddr"></h6>
       
-      <form method="post" action="setStore.php">
+
         <div class="form-group" >
           <label id="sLabel" for="search"></label>
           <input type="text" class="form-control" id="search">
           <input type="hidden" name="storeName" id="storeName" />
+          <input type="hidden" name="DeliveryAddress" id="deliver123"/>
           <input type="hidden" name="storeAddr" id="storeAddr" />
-          <input type="hidden" name="deliveryAddr" id="deliveryAddr"
+          <input type="hidden" name="deliveryAddr" id="deliveryAddr"/>
           <input type="hidden" name="storeDistance" id="storeDistance" />
           <input type="hidden" name="storeTime" id="storeTime" />
         
@@ -98,9 +120,7 @@ echo <<< HTML
           <input type="submit" name="storeSubmit" class="btn btn-default" value="Continue">
     
     
-          <h2 class="text-center" id="heading">Delivery Address</h2>
-          <label id="sLabel2" for="search2">Address that the will receive the Order</label>
-          <input type="text" class="form-control" id="search2" value="$addr">
+          
       </form>
     
 
@@ -121,7 +141,7 @@ echo <<< HTML
 </div>
  
 </div>
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry,places&key=AIzaSyCWwnLz96h6TEZhgodUmPdyUNfAk1EkUA0"></script> 
    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWwnLz96h6TEZhgodUmPdyUNfAk1EkUA0"></script> -->
   <script>
@@ -138,6 +158,7 @@ echo <<< HTML
           document.getElementById('strAddr').innerHTML = place.formatted_address;
           document.getElementById('storeName').value = place.name;
           document.getElementById('storeAddr').value = place.formatted_address;
+          
           document.getElementById('heading').style.display = "none";
           document.getElementById('search').value = "";
           
@@ -182,12 +203,12 @@ echo <<< HTML
         console.log('To: ' + to);
         document.getElementById('storeDistance').value = distance;
         document.getElementById('storeTime').value = duration;
-        document.getElementById('deliveryAddr').value = from;
+        document.getElementById('deliver123').value = from;
       }
     }
   }
       }}
-      
+
  
       
 </script>

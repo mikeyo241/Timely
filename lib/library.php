@@ -1,5 +1,10 @@
 <?php
 $PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF']);
+
+
+
+
+
 function searchItems($qry)
 {
 # Set up a client to talk to the Semantics3 API using your Semantics3 API Credentials
@@ -165,7 +170,8 @@ function checkLogin($id , $pass){
         $_SESSION['accDriver']  =  $res['ACC_DRIVER'];
         $_SESSION['isLogged']   =   true;
 
-        return 'normalLogin';
+        if ($res['ACC_DRIVER'] == "no") return 'normalLogin';
+        if ($res['ACC_DRIVER'] == "yes") return 'driverLogin';
 
       } else if ($pass ==$res['ACC_TEMP_PASS'] && $id == $res['ACC_EMAIL'] && $res['ACC_TEMP_PASS_EXPIRES'] != NULL) return "tempPassUsed";
       else return "Wrong Email or Password";
@@ -176,4 +182,121 @@ function checkLogin($id , $pass){
     return false;
   }
   return false;
+}
+
+function createOrder($deliveryAddress, $storeAddress, $driverEmail, $customerEmail, $DeliveryTime) {
+  //      *** Establish a connection to the database  ***
+  $link = dbConnect();
+
+//      *** Query  ***
+  $qry = "INSERT INTO ORDERED(ORD_DEL_ADDR, ORD_STORE_ADDR, ORD_DRIVER, ORD_CUSTOMER, ORD_DELIVERED) 
+      VALUES (
+      '$deliveryAddress',
+      '$storeAddress',
+      '$driverEmail',
+      '$customerEmail',
+      '$DeliveryTime'      
+      )";
+
+
+//      *** Implement Query   ***
+  if (mysqli_query($link,$qry)){
+    return true;
+  }else {
+    echo "Error: " . $qry . "<br>" . mysqli_error($link);
+    $link->close();
+    return false;
+  }
+}
+function addItemsToOrder($orderNum, $itemName, $itemBrand, $itemPrice, $itemDesc){
+  //      *** Establish a connection to the database  ***
+  $link = dbConnect();
+
+//      *** Query  ***
+  $qry = "INSERT INTO ITEMS(ORD_NUM, ITEM_NAME, ITEM_BRAND, ITEM_PRICE, ITEM_DESC) 
+      VALUES (
+      '$orderNum',
+      '$itemName',
+      '$itemBrand',
+      '$itemPrice',
+      '$itemDesc'      
+      )";
+
+
+//      *** Implement Query   ***
+  if (mysqli_query($link,$qry)){
+    return true;
+  }else {
+    echo "Error: " . $qry . "<br>" . mysqli_error($link);
+    $link->close();
+    return false;
+  }
+}
+
+// Megans Login Info  : megan@beautiful.com   pass: 1234
+
+function getOrderNumber($userEmail, $storeAddress)
+{
+
+//      *** Establish a connection to the database  ***
+  $link = dbConnect();
+
+//      *** Database Query's    ***
+  $qry = "SELECT * FROM ORDERED WHERE ORD_CUSTOMER = '$userEmail' AND ORD_STORE_ADDR = '$storeAddress'";
+
+
+  if ($result = mysqli_query($link, $qry)) {                // Implement the query
+    if (mysqli_num_rows($result) == 1) {                // There can only be 1 entry for email no duplicates.
+      $res = mysqli_fetch_assoc($result);
+      return $res['ORD_NUM'];
+    }
+  }else {
+    echo "Error: " . $qry . "<br>" . mysqli_error($link);
+    $link->close();
+    return false;
+
+  }
+}
+
+
+function getOrders($driverEmail) {
+  //      *** Establish a connection to the database  ***
+  $link = dbConnect();
+
+//      *** Database Query's    ***
+  $qry = "SELECT * FROM ORDERED WHERE ORD_DRIVER = '$driverEmail'";
+
+
+  if ($result = mysqli_query($link, $qry)) {                // Implement the query
+    if (mysqli_num_rows($result) == 1) {                // There can only be 1 entry for email no duplicates.
+      $res = mysqli_fetch_assoc($result);
+      return $res;
+    }
+  }else {
+    echo "Error: " . $qry . "<br>" . mysqli_error($link);
+    $link->close();
+    return false;
+
+  }
+}
+
+function getItems($orderNumber){
+  //      *** Establish a connection to the database  ***
+  $link = dbConnect();
+
+//      *** Database Query's    ***
+  $qry = "SELECT * FROM ITEMS WHERE ORD_NUM = '$orderNumber'";
+
+
+  if ($result = mysqli_query($link, $qry)) {                // Implement the query
+    if (mysqli_num_rows($result) == 1) {                // There can only be 1 entry for email no duplicates.
+      $res = mysqli_fetch_assoc($result);
+      return $res;
+    }
+  }else {
+    echo "Error: " . $qry . "<br>" . mysqli_error($link);
+    $link->close();
+    return false;
+
+  }
 }

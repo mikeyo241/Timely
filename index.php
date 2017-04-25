@@ -8,7 +8,9 @@ if(isset($_POST['loginSubmit'])) {
   $userNotify = checkLogin($_POST['email'],$_POST['pass']);
   if($userNotify == 'normalLogin'){
     reDir('subscriber/profile.php');
-  }//$userNotify = "Login Fail";
+  }else if ($userNotify == 'driverLogin') {
+    reDir('driver/profile.php');
+  }
 } else $userNotify = "";
 
 

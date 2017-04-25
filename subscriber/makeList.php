@@ -8,12 +8,20 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//  ** Pull Session Variables  **
+$fName = $_SESSION['fName'];
+$lName = $_SESSION['lName'];
+$email = $_SESSION['email'];
+$addr = $_SESSION['DeliveryAddress'];
+$phone = $_SESSION['phone'];
 
 if(isset($_SESSION['strName'])) {
   $strName = $_SESSION['strName'];
   $strAddr = $_SESSION['strAddr'];
   $strDist = $_SESSION['strDist'];
   $strTime = $_SESSION['strTime'];
+  $deliveryTime = $_SESSION['deliveryTime'];
+  $deliveryAddr = $_SESSION['deliveryAddr'];
 }else reDir('order.php');
 
 
@@ -32,13 +40,16 @@ echo $results["results"][0]["name"];
   $results = "";
   $img = "error";
 }
-
+if(isset($_POST['orderSubmit'])){
+ reDir('profile.php');
+}
 
 if(isset($_POST['createItem'])) {
   $itemName = $_POST['itemName'];
   $brand = $_POST['brand'];
   $itemDesc = $_POST['itemDesc'];
   $itemCost = $_POST['itemCost'];
+  addItemsToOrder($_SESSION['orderNumber'],$itemName,$brand,$itemCost,$itemDesc);
   $item = "<tr> <td> " . $itemName . " </td><td> " . $itemCost . "</td></tr>";
   $_SESSION['cart'][] = $item;
 
@@ -49,7 +60,7 @@ if(isset($_POST['createItem'])) {
 
 if (isset($_POST['logOutSubmit'])) {
   session_destroy();
-  reDir('order.php');
+  reDir('../index.php');
 }
 
 
@@ -108,8 +119,18 @@ echo <<< HTML
                 <li><a href="account.php">Account Settings</a></li>               
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="login.php"><span class="glyphicon glyphicon-logg-in"></span> Login</a></li>
-            </ul>
+               <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="profile.php"><span class="glyphicon glyphicon-user"></span> $fName $lName
+              </a>
+              <ul class="dropdown-menu text-center">
+                
+                <li class="text-center">
+            <form id="signOutForm" action="$PHP_SELF" method="post">
+                <button type="submit" value="Log Out" id="logOutSubmit" name="logOutSubmit" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-log-out"></span> Log out
+                </button>
+            </form>
+          </li></ul></li></ul>
         </div>
     </div>
 </nav>
@@ -173,11 +194,12 @@ echo <<< HTML
   </div>
   
   <!-- The Users Shopping Cart -->
-  <div class="col-sm-3">
+  <div class="col-sm-4">
     <div class="well well-white">
       <h5 id="Store" class="text-centered">Delivering from: <b>$strName</b><br> $strAddr </h5>
               <form id="signOutForm" action="$PHP_SELF" method="post">
             <input type="submit" value="Cancel Order" id="logOutSubmit" name="logOutSubmit">
+            <input type="submit" value="Submit Order" id="orderSubmit" name="orderSubmit">
         </form>
       <h2 class="text-center" >Shopping Cart</h2>
      
