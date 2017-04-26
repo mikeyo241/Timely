@@ -9,7 +9,7 @@ if(isset($_POST['storeName'])) {
   $_SESSION['strDist'] = $_POST['storeDistance'];
   $_SESSION['strTime'] = $_POST['storeTime'];
   $_SESSION['deliveryTime'] = $_POST['deliveryTime'];
-  $_SESSION['DeliveryAddress'] = $_POST['DeliveryAddress'];
+  $_SESSION['deliveryAddr'] = $_POST['DeliveryAddress'];
   echo "Store Name " . $_SESSION['strName'] . "<br>";
   echo "Store Address " . $_SESSION['strAddr']. "<br>";
   echo "Store Distance " . $_SESSION['strDist'] . "<br>";

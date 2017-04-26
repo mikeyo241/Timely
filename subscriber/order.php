@@ -158,7 +158,6 @@ echo <<< HTML
           document.getElementById('strAddr').innerHTML = place.formatted_address;
           document.getElementById('storeName').value = place.name;
           document.getElementById('storeAddr').value = place.formatted_address;
-          
           document.getElementById('heading').style.display = "none";
           document.getElementById('search').value = "";
           

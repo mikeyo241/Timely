@@ -12,7 +12,7 @@ error_reporting(E_ALL);
 $fName = $_SESSION['fName'];
 $lName = $_SESSION['lName'];
 $email = $_SESSION['email'];
-$addr = $_SESSION['DeliveryAddress'];
+$addr = $_SESSION['deliveryAddr'];
 $phone = $_SESSION['phone'];
 
 if(isset($_SESSION['strName'])) {
